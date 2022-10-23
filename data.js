@@ -26,4 +26,4 @@ const data = [
     }
 ];
 
-module.exports.dataList = data;
+module.exports = data;
