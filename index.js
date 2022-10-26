@@ -1,25 +1,23 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
 let data = require('./data');
 const app = express();
-const PORT = 3005;
+const PORT = process.env.PORT || 3001;
 
+app.use(express.static('build'));
+app.use(cors());
 app.use(express.json());
 
-// app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
-
 app.use(morgan((tokens, req, res) => {
-
-    const obj = req.body ? JSON.stringify(req.body) || '';
-
     return [
         tokens.method(req, res),
         tokens.url(req, res),
         tokens.status(req, res),
         tokens.res(req, res, 'content-length'), '-',
         tokens['response-time'](req, res), 'ms',
-        obj
+        JSON.stringify(req.body)
     ].join(' ')
 }));
 
